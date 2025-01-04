@@ -11,15 +11,6 @@ public class Transaction {
 
     }
 
-    // Getters
-    public String getType() {
-        return type;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
 
     @Override
     public String toString() {

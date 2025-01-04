@@ -1,4 +1,3 @@
-
 public class Notes  {
     private int denomination;
     private int count;
@@ -37,16 +36,15 @@ class Notes500 extends Notes {
         super(500,count);
     }
 }
- class Notes200 extends Notes {
+class Notes200 extends Notes {
     public Notes200(int count){
         super(200,count);
     }
 }
- class Notes100 extends Notes {
+class Notes100 extends Notes {
     public Notes100(int count){
         super(100,count);
     }
 }
-
 
 

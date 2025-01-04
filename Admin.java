@@ -1,36 +1,26 @@
 import java.util.ArrayList;
 
-public class Admin {
-    private String adminName;
-    private int adminPin;
-    private ArrayList<Transaction> transactions;
+public class Admin extends Accounts {
+  //  private String username;
+    //private String password;
+    //private ArrayList<Transaction> transactions;
 
-    public Admin(String adminName, int adminPin) {
-        this.adminName = adminName;
-        this.adminPin = adminPin;
-        this.transactions=new ArrayList<>();
+    //public Admin(String username, String password) {
+      //  this.username = username;
+        //this.password = password;
+        //this.transactions=new ArrayList<>();
+    //}
+
+
+    public String getUsername() {
+        return username;
     }
 
-    public Admin() {
-
+    public String getpassword() {
+        return password;
     }
 
-    // Getters and Setters
-    public String getAdminName() {
-        return adminName;
-    }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
-    }
-
-    public int getAdminPin() {
-        return adminPin;
-    }
-
-    public void setAdminPin(int adminPin) {
-        this.adminPin = adminPin;
-    }
 
     public ArrayList<Transaction> getTransactions() {
         return transactions;

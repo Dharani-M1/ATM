@@ -1,21 +1,31 @@
 import java.util.ArrayList;
 
-public class User {
-    private String username;
-    private String password;
+public class User extends Accounts {
+   // private String username;
+   // private String password;
     private double balance;
-    private ArrayList<Transaction> transactions;
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.balance = 0.0;
-        this.transactions = new ArrayList<>();
+
+    /*  public User(String username, String password) {
+
+          this.username = username;
+          this.password = password;
+
+          this.balance = 0.0;
+          this.transactions = new ArrayList<>();
+      }
+
+     */
+    public User(double balance) {
+        super(balance);
     }
 
-    public User() {}
+    public User(String username, String password) {
+        super(username,password);
+    }
 
-    // Getters and Setters
+
+/*
     public String getUsername() {
         return username;
     }
@@ -32,6 +42,8 @@ public class User {
         this.password = password;
     }
 
+ */
+
     public double getBalance() {
         return balance;
     }
@@ -43,8 +55,6 @@ public class User {
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
-
-    public void setTransactions(ArrayList<Transaction> transactions) {
-        this.transactions = transactions;
-    }
 }
+
+

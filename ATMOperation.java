@@ -1,28 +1,25 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ATMOperation {
 
     private AdminActions adminActions;
     private UserActions userActions;
-    private ATMSystem atmSystem;
-  // private ArrayList<Admin>admins;
 
+    public ATMOperation() {
+        this.adminActions = new AdminActions();
+        this.userActions = new UserActions();
 
-    // Constructor
-    public ATMOperation(ATMSystem atmSystem) {
-    this.atmSystem = atmSystem;
-    this.adminActions = new AdminActions();
-    this.userActions = new UserActions();
-  //  this.admins=new ArrayList<>();
+        // Initialize static fields in ATMSystem if needed
+       // ATMSystem.getAdmins().add(new Admin("admin", "1234"));//set admin name and pin
+      //  ATMSystem.getAdmins().add(new Admin("admin1", "1234"));//set admin name and pin
+        Accounts.getAdmins().add(new Admin("admin","1234"));
+        Accounts.getAdmins().add(new Admin("admin1","1234"));
 
     }
+
     public void start() {
         Scanner sc = new Scanner(System.in);
         boolean exit = false;
-        atmSystem.getAdmins().add(new Admin("admin",1234));
-        atmSystem.getAdmins().add(new Admin("admin1",1234));
-
 
         while (!exit) {
             System.out.println("\nATM System Menu:");
@@ -30,56 +27,61 @@ public class ATMOperation {
             System.out.println("2. User Login");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
-            //int choice = sc.nextInt();
             int choice = Integer.parseInt(sc.nextLine());
 
-
-            if(choice==1) {
-                adminlog(sc,atmSystem);
-
-            }
-            else if (choice==2) {
-                userLog(sc,atmSystem.getNotes(),atmSystem.getTransactions());
-
-
-            } else if (choice==3) {
-                System.out.println("Exiting the ATM system...");
-                exit = true;
-            }
-            else{
-                System.out.println(("Invalid Choice"));
+            switch (choice) {
+                case 1:
+                    if(adminLog(sc)) {
+                        System.out.println("Admin login Sucessfull");
+                        adminActionsMenu(sc);
+                        break;
+                    }
+                    break;
+                case 2:
+                    User userlogg=userLog(sc);
+                    if(userlogg!=null) {
+                        userActionsMenu(sc,userlogg);
+                        break;
+                    }
+                    break;
+                case 3:
+                    System.out.println("Exiting the ATM system...");
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try again.");
             }
         }
+        sc.close();
     }
 
-    public void adminlog(Scanner sc, ATMSystem atmSystem) {
-        System.out.println("Enter Admin Username: ");
+    private boolean adminLog(Scanner sc) {
+        System.out.print("Enter Admin Username: ");
         String adminUsername = sc.nextLine();
-
-
-        Admin adminn = null;
-        for (Admin a : atmSystem.getAdmins()) {
-            if (a.getAdminName().equals(adminUsername)) {
-                adminn = a;
+        Admin admin = null;
+        for (Admin a : Accounts.getAdmins()) {//to check admin name in admin arraylist
+            if (a.getUsername().equals(adminUsername)) {//check if equals
+                admin = a;
                 break;
             }
         }
 
-        if (adminn != null) {
-            System.out.println("Enter Admin Pin: ");
-            int adminPin = Integer.parseInt(sc.nextLine());
-            if (adminPin == adminn.getAdminPin()) {
-                adminActionsMenu(sc,adminn);
+        if (admin != null) {
+            System.out.print("Enter Admin Pin: ");
+            String adminPin = sc.nextLine();
+            if (admin.getpassword().equals(adminPin)) {//check if password is equal
+
+                return true;
             } else {
-                System.out.println("Invalid Pin");
+                System.out.println("Invalid Pin.");//if password invalid
             }
         } else {
-            System.out.println("Invalid Username");
+            System.out.println("Invalid Username.");//if admin name invalid
         }
-
+        return false;
     }
 
-    private void adminActionsMenu(Scanner sc,Admin admin) {
+    private void adminActionsMenu(Scanner sc) {
         boolean exit = false;
         while (!exit) {
             System.out.println("\nAdmin Menu:");
@@ -96,25 +98,25 @@ public class ATMOperation {
 
             switch (choice) {
                 case 1:
-                    adminActions.addUser(sc, atmSystem.getUsers());
+                    adminActions.addUser(sc);
                     break;
                 case 2:
-                    adminActions.deleteUser(sc, atmSystem.getUsers());
+                    adminActions.deleteUser(sc);
                     break;
                 case 3:
-                    adminActions.viewUsers(atmSystem.getUsers());
+                    adminActions.viewUsers();
                     break;
                 case 4:
-                    adminActions.viewAtmBalance(atmSystem);
+                    adminActions.viewAtmBalance();
                     break;
                 case 5:
-                    adminActions.depositAtmBalance(sc, atmSystem,atmSystem.getNotes(),atmSystem.getTransactions(),admin);
+                    adminActions.depositAtmBalance(sc);
                     break;
                 case 6:
-                    adminActions.viewUserTransactions(sc, atmSystem.getUsers(), atmSystem.getTransactions());
+                    adminActions.viewUserTransactions(sc);
                     break;
                 case 7:
-                    adminActions.viewAdminTransactions(sc,atmSystem.getTransactions(), atmSystem);
+                    adminActions.viewAdminTransactions(sc);
                     break;
                 case 8:
                     exit = true;
@@ -125,34 +127,34 @@ public class ATMOperation {
         }
     }
 
-    // User Login Process
-    public void userLog(Scanner sc,ArrayList<Notes>notes,ArrayList<Transaction>transactions) {
-        System.out.print("Enter username: ");
+    private User userLog(Scanner sc) {
+        System.out.print("Enter Username: ");
         String username = sc.nextLine();
 
-        User user = null;
-        for (User u : atmSystem.getUsers()) {
-            if (u.getUsername().equals(username)) {
+        User user= null;
+        for (User u : Accounts.getUsers()) {//to check username from arraylist of username
+            if (u.getUsername().equals(username)) {//check if username is equal
                 user = u;
                 break;
             }
         }
 
+
         if (user != null) {
-            System.out.println("Enter User Pin: ");
+            System.out.print("Enter User Pin: ");
             String password = sc.nextLine();
-            if (password.equals(user.getPassword())) {
-                userActionsMenu(sc,user,notes,transactions,userActions);
+            if (password.equals(user.getPassword())) {//check if password is equal
+                return user;
             } else {
-                System.out.println("Invalid Pin");
+                System.out.println("Invalid Pin.");//if invalid password
             }
         } else {
-            System.out.println("Invalid Username");
+            System.out.println("Invalid Username.");//if invalid username
         }
+        return null;
     }
 
-    // User Menu Options
-    private void userActionsMenu(Scanner sc, User user,ArrayList<Notes>notes,ArrayList<Transaction>transactions,UserActions userActions) {
+    private void userActionsMenu(Scanner sc,User user) {
         boolean exit = false;
         while (!exit) {
             System.out.println("\nUser Menu:");
@@ -167,10 +169,10 @@ public class ATMOperation {
 
             switch (choice) {
                 case 1:
-                    userActions.depositMoney(sc, user, atmSystem, atmSystem.getNotes(),transactions);
+                    userActions.depositMoney(sc, user);
                     break;
                 case 2:
-                    userActions.withdrawMoney(sc, user, notes,atmSystem);
+                    userActions.withdrawMoney(sc, user);
                     break;
                 case 3:
                     userActions.viewBalance(user);
@@ -179,7 +181,7 @@ public class ATMOperation {
                     userActions.viewTransactionHistory(user);
                     break;
                 case 5:
-                    userActions.chancepin(user, sc);
+                    userActions.changePin(user, sc);
                     break;
                 case 6:
                     exit = true;

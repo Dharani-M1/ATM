@@ -2,70 +2,53 @@ import java.util.ArrayList;
 
 public class ATMSystem {
 
-    private double atmbalance;
-    private ArrayList<User> users;
-    private ArrayList<Admin> admins;
-    private ArrayList<Notes> notes;
-    private ArrayList<Transaction> transactions;
+    private static double atmbalance;
+   // private static ArrayList<User> users=new ArrayList<>();//declaration of new arraylist for user
+   // private static ArrayList<Admin> admins=new ArrayList<>();//declaration of new arraylist for admin
+    private static ArrayList<Notes> notes=new ArrayList<>();//declaration of new arraylist for notes
+    private static ArrayList<Transaction> transactions=new ArrayList<>();//declaration of new arraylist for transactions
+    private static ArrayList<Accounts>accounts=new ArrayList<>();
 
 
-    // Default Constructor
-    public ATMSystem() {
-        this.users = new ArrayList<>();
-        this.admins = new ArrayList<>();
-        this.notes = new ArrayList<>();
-        this.transactions = new ArrayList<>();
-        this.atmbalance = 0.0;
+    public static ArrayList<Accounts>accounts(){
+
+        return accounts;
     }
-
-
-    public ATMSystem(double atmbalance, ArrayList<User> users, ArrayList<Admin> admins,
-                     ArrayList<Notes> notes, ArrayList<Transaction> transactions) {
-        this.atmbalance = atmbalance;
-        this.users = users;
-        this.admins = admins;
-        this.notes = notes;
-        this.transactions = transactions;
-    }
-
-    // Getters and Setters
-   public double getAtmbalance() {
+    public static double getAtmbalance() {
         return atmbalance;
     }
 
-    public void setAtmbalance(double atmbalance) {
-        this.atmbalance = atmbalance;
+    public static void setAtmbalance(double atmbalance) {
+        ATMSystem.atmbalance = atmbalance;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
-    }
+  //  public static ArrayList<User> getUsers() {
+  //      return users;
+  //}
 
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
-    }
 
-    public ArrayList<Admin> getAdmins() {
-        return admins;
-    }
 
-    public void setAdmins(ArrayList<Admin> admins) {
-        this.admins = admins;
-    }
+  //  public static ArrayList<Admin> getAdmins() {
+   //     return admins;
+  //  }
 
-    public ArrayList<Notes> getNotes() {
+   // public static void setAdmins(ArrayList<Admin> admins) {
+  //      ATMSystem.admins = admins;
+  //  }
+
+    public static ArrayList<Notes> getNotes() {
         return notes;
     }
 
-    public void setNotes(ArrayList<Notes> notes) {
-        this.notes = notes;
+    public static void setNotes(ArrayList<Notes> notes) {
+        ATMSystem.notes = notes;
     }
 
-    public ArrayList<Transaction> getTransactions() {
+    public static ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(ArrayList<Transaction> transactions) {
-        this.transactions = transactions;
+    public static void setTransactions(ArrayList<Transaction> transactions) {
+        ATMSystem.transactions = transactions;
     }
 }

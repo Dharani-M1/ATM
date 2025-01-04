@@ -1,8 +1,7 @@
-public  class Main {
 
+public class Main {
     public static void main(String[] args) {
-        ATMSystem atmSystem=new ATMSystem();
-        ATMOperation atmOperation=new ATMOperation(atmSystem);
+        ATMOperation atmOperation=new ATMOperation();
         atmOperation.start();
     }
 }
