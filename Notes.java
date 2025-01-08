@@ -47,4 +47,3 @@ class Notes100 extends Notes {
     }
 }
 
-

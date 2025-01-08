@@ -1,9 +1,14 @@
 import java.util.ArrayList;
 
 public class User extends Accounts {
-   // private String username;
-   // private String password;
+    // private String username;
+    // private String password;
     private double balance;
+    public User(String username,String password){
+        super(username,password);
+    }
+
+
 
 
     /*  public User(String username, String password) {
@@ -16,13 +21,6 @@ public class User extends Accounts {
       }
 
      */
-    public User(double balance) {
-        super(balance);
-    }
-
-    public User(String username, String password) {
-        super(username,password);
-    }
 
 
 /*
@@ -52,9 +50,8 @@ public class User extends Accounts {
         this.balance = balance;
     }
 
-    public ArrayList<Transaction> getTransactions() {
-        return transactions;
-    }
+   // public ArrayList<Transaction> getTransactions() {
+  //      return transactions;
+  //  }
 }
-
 

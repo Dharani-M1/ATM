@@ -9,7 +9,7 @@ public class UserActions {
     }
 
     // to change the user's PIN
-    public void changePin(User user, Scanner sc) {
+    public void changePin(Accounts user, Scanner sc) {
         System.out.println("Enter New PIN:");
         String newPin = sc.nextLine(); // Read the new PIN from the user
         System.out.println("Confirm New PIN:");
@@ -17,7 +17,7 @@ public class UserActions {
 
         // Check if the new PIN matches the confirmation PIN
         if (newPin.equals(confirmPin)) {
-            user.setPassword(newPin); // setPassword stores the PIN
+            user.setPassword(confirmPin); // setPassword stores the PIN
             System.out.println("PIN changed successfully.");
         } else {
             System.out.println("PIN mismatch. Try again.");
@@ -32,12 +32,22 @@ public class UserActions {
         if (user.getTransactions().isEmpty()) {
             System.out.println("No transactions found.");
         } else {
-            // Print each transaction
-            for (Transaction transaction : user.getTransactions()) {
-                System.out.println(transaction);
+            // Check if the user is an instance of Accounts
+            Accounts accountUser = user;
+            if (user instanceof User) {
+                // Cast to Accounts and print each transaction
+
+                for (Transaction transaction : accountUser.getTransactions()) {
+                    System.out.println(transaction);
+                }
+            } else {
+                System.out.println("User is not an account holder.");
             }
         }
     }
+
+
+    // Method to withdraw money
 
     // Method to withdraw money from the ATM
     public void withdrawMoney(Scanner sc, User user) {
@@ -117,7 +127,7 @@ public class UserActions {
         ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() - amount);
 
         // Add the transaction to the user's transaction history
-        user.getTransactions().add(new Transaction("Withdraw", amount));
+        user.getTransactions().add(new Transaction("Withdraw", amount,"user"));
 
         // Display the successful withdrawal message and notes Withdrawn count
         System.out.println("Withdrawal successful. Notes Withdrawn:");
@@ -155,7 +165,7 @@ public class UserActions {
         if ((count2000 * 2000 + count500 * 500 + count200 * 200 + count100 * 100) == amount) {
             user.setBalance(user.getBalance() + amount); // Update user's balance
             ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() + amount); // Update ATM balance
-            user.getTransactions().add(new Transaction("Deposit", amount)); // Add deposit transaction
+            user.getTransactions().add(new Transaction("Deposit", amount,"user")); // Add deposit transaction
 
             // Update the note counts in the ATM
             updateNoteCount(2000, count2000);
