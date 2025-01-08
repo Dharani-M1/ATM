@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import Listofnotes.*;
+import Notes.Notes;
 
 public class ATMSystem {
 
@@ -12,7 +14,6 @@ public class ATMSystem {
 
 
     public static ArrayList<Accounts>accounts(){
-
         return accounts;
     }
     public static double getAtmbalance() {
@@ -51,5 +52,14 @@ public class ATMSystem {
 
     public static void setTransactions(ArrayList<Transaction> transactions) {
         ATMSystem.transactions = transactions;
+    }
+
+    public static Notes getdenom(int denomination){
+        for(Notes note:notes){
+            if(note.getDenomination()==denomination){
+                return note;
+            }
+        }
+        return null;
     }
 }

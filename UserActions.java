@@ -1,7 +1,39 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import Notes.Notes;
 
 public class UserActions {
+    public static Accounts userLog(Scanner sc) {
+        System.out.print("Enter Username: ");
+        String username = sc.nextLine();
+
+        Accounts user = null;
+
+        // Iterate through the list of users
+        for (Accounts u : ATMSystem.accounts()) {
+            if (u.getUsername().equals(username)) {
+                user=u;
+                break;
+            }
+        }
+
+        // Check if the found account is an instance of User
+        if (user instanceof User) {
+            System.out.print("Enter User Pin: ");
+            String password = sc.nextLine();
+
+            // Verify the password
+            if (password.equals(user.getPassword())) {
+                return (User) user;  // Safe cast after instanceof check
+            } else {
+                System.out.println("Invalid Pin.");
+            }
+        } else {
+            System.out.println("Invalid Username.");
+        }
+
+        return null;
+    }
 
     // to view the user's current balance
     public void viewBalance(User user) {
@@ -9,7 +41,7 @@ public class UserActions {
     }
 
     // to change the user's PIN
-    public void changePin(Accounts user, Scanner sc) {
+    public void changePin(User user, Scanner sc) {
         System.out.println("Enter New PIN:");
         String newPin = sc.nextLine(); // Read the new PIN from the user
         System.out.println("Confirm New PIN:");
@@ -26,24 +58,29 @@ public class UserActions {
 
     // to view the transaction history of the user
     public void viewTransactionHistory(User user) {
+        for(Accounts account:ATMSystem.accounts()){
+            if(account instanceof User){
+                if(account.equals(user)){
+                    ArrayList<Transaction>transactionshis=user.getTransactions();
+                    if(transactionshis.isEmpty()){
+                        System.out.println("No Transaction History found");
+                    }
+                    else {
+                        for(Transaction transaction:transactionshis){
+                            System.out.println(transaction);
+
+                        }
+
+                    }
+                }
+
+            }
+
+        }
         System.out.println("Transaction history for " + user.getUsername() + ":");
 
         // Check if the user has any transaction history
-        if (user.getTransactions().isEmpty()) {
-            System.out.println("No transactions found.");
-        } else {
-            // Check if the user is an instance of Accounts
-            Accounts accountUser = user;
-            if (user instanceof User) {
-                // Cast to Accounts and print each transaction
 
-                for (Transaction transaction : accountUser.getTransactions()) {
-                    System.out.println(transaction);
-                }
-            } else {
-                System.out.println("User is not an account holder.");
-            }
-        }
     }
 
 
@@ -127,7 +164,8 @@ public class UserActions {
         ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() - amount);
 
         // Add the transaction to the user's transaction history
-        user.getTransactions().add(new Transaction("Withdraw", amount,"user"));
+       // user.getTransactions().add(new Transaction("User", "Withdraw",amount));
+        user.getTransactions().add(new Transaction("User","withdraw",amount));
 
         // Display the successful withdrawal message and notes Withdrawn count
         System.out.println("Withdrawal successful. Notes Withdrawn:");
@@ -164,8 +202,9 @@ public class UserActions {
         // Validate the total amount based on the entered denominations
         if ((count2000 * 2000 + count500 * 500 + count200 * 200 + count100 * 100) == amount) {
             user.setBalance(user.getBalance() + amount); // Update user's balance
-            ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() + amount); // Update ATM balance
-            user.getTransactions().add(new Transaction("Deposit", amount,"user")); // Add deposit transaction
+            ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() + amount);// Update ATM balance
+            user.getTransactions().add(new Transaction("user","deposit",amount));
+          //  Accounts.getTransactions().add(new Transaction("user", "deposit",amount)); // Add deposit transaction
 
             // Update the note counts in the ATM
             updateNoteCount(2000, count2000);
@@ -188,5 +227,6 @@ public class UserActions {
                 return;
             }
         }
+
     }
 }

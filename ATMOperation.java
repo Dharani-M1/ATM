@@ -11,8 +11,8 @@ public class ATMOperation {
         this.userActions = new UserActions();
 
         // Initialize static fields in ATMSystem if needed
-        Accounts.getAdmins().add(new Admin("admin","1234"));
-        Accounts.getAdmins().add(new Admin("admin1","1234"));
+        ATMSystem.accounts().add(new Admin("admin","1234"));
+        ATMSystem.accounts().add(new Admin("admin1","1234"));
 
     }
 
@@ -30,15 +30,16 @@ public class ATMOperation {
 
             switch (choice) {
                 case 1:
-                   Admin a=(Admin) AdminActions.adminLog(sc);
-                   if(a!=null){
-                       adminActionsMenu(sc,adminActions,a);
-                   }
+                    Admin a=(Admin) AdminActions.adminLog(sc);
+                    if(a!=null){
+                        adminActionsMenu(sc,adminActions,a);
+                    }
                     break;
                 case 2:
-                    User userlogg=userLog(sc);
-                    if(userlogg!=null) {
-                        userActionsMenu(sc,userlogg);
+                    User user=(User)UserActions.userLog(sc);
+                    //User userlogg=userLog(sc);
+                    if(user!=null) {
+                        userActionsMenu(sc,user);
                         break;
                     }
                     break;
@@ -85,13 +86,13 @@ public class ATMOperation {
                     adminActions.viewAtmBalance();
                     break;
                 case 5:
-                    adminActions.depositAtmBalance(sc);
+                    adminActions.depositAtmBalance(sc,admin);
                     break;
                 case 6:
-                    adminActions.viewUserTransactions(sc,admin);
+                    adminActions.viewUserTransactions(sc);
                     break;
                 case 7:
-                    adminActions.viewAdminTransactions(sc,admin);
+                    adminActions.viewAdminTransactions(admin);
                     break;
                 case 8:
                     exit = true;
@@ -102,37 +103,7 @@ public class ATMOperation {
         }
     }
 
-    private User userLog(Scanner sc) {
-        System.out.print("Enter Username: ");
-        String username = sc.nextLine();
 
-        Accounts user = null;
-
-        // Iterate through the list of users
-        for (Accounts u : Accounts.getUsers()) {
-            if (u.getUsername().equals(username)) {
-                user = u;
-                break;
-            }
-        }
-
-        // Check if the found account is an instance of User
-        if (user instanceof User) {
-            System.out.print("Enter User Pin: ");
-            String password = sc.nextLine();
-
-            // Verify the password
-            if (password.equals(user.getPassword())) {
-                return (User) user;  // Safe cast after instanceof check
-            } else {
-                System.out.println("Invalid Pin.");
-            }
-        } else {
-            System.out.println("Invalid Username.");
-        }
-
-        return null;
-    }
 
 
     private void userActionsMenu(Scanner sc,User user) {

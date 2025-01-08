@@ -4,8 +4,10 @@ public class User extends Accounts {
     // private String username;
     // private String password;
     private double balance;
-    public User(String username,String password){
+    protected User user;
+    public User(String username,String password,double balance){
         super(username,password);
+        this.balance=balance;
     }
 
 
@@ -50,8 +52,7 @@ public class User extends Accounts {
         this.balance = balance;
     }
 
-   // public ArrayList<Transaction> getTransactions() {
-  //      return transactions;
-  //  }
+    // public ArrayList<Transaction> getTransactions() {
+    //      return transactions;
+    //  }
 }
-

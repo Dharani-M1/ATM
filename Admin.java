@@ -12,13 +12,13 @@ public class Admin extends Accounts {
     //}
 
 
-   // public String getUsername() {
+    // public String getUsername() {
     //    return username;
-   // }
+    // }
 
-  //  public String getpassword() {
-   //     return password;
-   // }
+    //  public String getpassword() {
+    //     return password;
+    // }
 
 
 
@@ -26,7 +26,7 @@ public class Admin extends Accounts {
         super(username,password);
     }
 
-   // public ArrayList<Transaction> getTransactions() {
-  //      return transactions;
-   // }
+    // public ArrayList<Transaction> getTransactions() {
+    //      return transactions;
+    // }
 }

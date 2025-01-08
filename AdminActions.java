@@ -1,5 +1,8 @@
+import Notes.Notes;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
 
 public class AdminActions {
     public static Accounts adminLog(Scanner sc) {
@@ -8,7 +11,7 @@ public class AdminActions {
         Accounts admin = null;
 
         // Iterate through the list of admins
-        for (Accounts a : Accounts.getAdmins()) {
+        for (Accounts a : ATMSystem.accounts()) {
             if (a.getUsername().equals(adminUsername)) {
                 admin = a;
                 break;
@@ -33,24 +36,13 @@ public class AdminActions {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     // Add a new user
     public void addUser(Scanner sc) {
         System.out.print("Enter new username: ");
         String username = sc.nextLine();
 
         // Check if the user already exists
-        for (Accounts account : Accounts.getUsers()) {
+        for (Accounts account : ATMSystem.accounts()) {
             if (account.getUsername().equals(username)) {
                 System.out.println("User already exists!");
                 return;
@@ -59,9 +51,10 @@ public class AdminActions {
 
         System.out.print("Enter new password: ");
         String password = sc.nextLine();
+        User newuser=new User(username,password,0);
 
         // Add the new user
-        Accounts.getUsers().add(new User(username, password));
+       ATMSystem.accounts().add(newuser);
         System.out.println("User added successfully.");
     }
 
@@ -72,9 +65,9 @@ public class AdminActions {
 
         Accounts userToDelete = null;
 
-        for (Accounts account : Accounts.getUsers()) {
-            if (account.getUsername().equals(username)) {
-                userToDelete = account;
+        for (Accounts user : ATMSystem.accounts()) {
+            if (user.getUsername().equals(username)) {
+                userToDelete = user;
                 break;
             }
         }
@@ -89,10 +82,18 @@ public class AdminActions {
 
     // View the list of registered users
     public void viewUsers() {
-        System.out.println("Registered Users:");
-        for (Accounts account : Accounts.getUsers()) {
-            System.out.println("-> " + account.getUsername());
-        }
+      if(ATMSystem.accounts().isEmpty()){
+          System.out.println("No users available");
+
+      }
+      else{
+          for(Accounts accounts:ATMSystem.accounts()){
+              if(accounts instanceof User){
+                  User user=(User)accounts;
+                  System.out.println("User Name:"+user.getUsername());
+              }
+          }
+      }
     }
 
     // View the ATM balance
@@ -101,7 +102,7 @@ public class AdminActions {
     }
 
     // Deposit money into the ATM
-    public void depositAtmBalance(Scanner sc) {
+    public void depositAtmBalance(Scanner sc,Admin admin) {
         System.out.print("Enter deposit amount: ");
         double amount = Double.parseDouble(sc.nextLine());
 
@@ -117,8 +118,18 @@ public class AdminActions {
             int count100 = Integer.parseInt(sc.nextLine());
 
             if ((count2000 * 2000 + count500 * 500 + count200 * 200 + count100 * 100) == amount) {
-                Accounts.getTransactions().add(new Transaction("Deposit", amount,"admin"));
-                System.out.println("Deposit successful!");
+                admin.getTransactions().add(new Transaction("Admin", "deposit",amount));
+
+
+
+                updateNoteCount(2000, count2000);
+                updateNoteCount(500, count500);
+                updateNoteCount(200, count200);
+                updateNoteCount(100, count100);
+
+
+
+                System.out.println("Deposit Sucessfull");
             } else {
                 System.out.println("Invalid denominations. Deposit failed.");
             }
@@ -128,17 +139,35 @@ public class AdminActions {
     }
 
     // View a user's transaction history
-    public void viewUserTransactions(Scanner sc,Admin admin) {
+    public void viewUserTransactions(Scanner sc) {
         System.out.print("Enter the username to view transactions: ");
         String username = sc.nextLine();
-        for (Accounts account : Accounts.getUsers()) {
-            if (account instanceof Admin) {
+        for (Accounts account : ATMSystem.accounts()) {
+            if (account instanceof User) {
+                ArrayList<Accounts>userlist=ATMSystem.accounts();
+                User user=null;
+                for(Accounts u:userlist)
+                {
+                    if(u.getUsername().equals(username)){
+                        user=(User) u;
+                        break;
+                    }
+                }
+                if(user==null){
+                    System.out.println("User not found");
+                }
+                else{
+                    ArrayList<Transaction>transactionhis=user.getTransactions();
+                    if(transactionhis.isEmpty()){
+                        System.out.println("No Transaction History found");
+                    }
+                    else {
+                      //  for(Transaction transaction:transactionhis){
+                        //    System.out.println(transaction);
 
-                if (account.getTransactions().isEmpty()) {
-                    System.out.println("No transactions found.");
-                } else {
-                    for (Transaction transaction : account.getTransactions()) {
-                        System.out.println(transaction);
+                      //  }
+                        System.out.println(transactionhis);
+
                     }
                 }
             }
@@ -146,30 +175,35 @@ public class AdminActions {
     }
 
     // View an admin's transaction history
-    public void viewAdminTransactions(Scanner sc,Admin admins) {
-        System.out.print("Enter Admin Username to view transactions: ");
-        String adminUsername = sc.nextLine();
+    public void viewAdminTransactions(Admin admins) {
 
-        Accounts admin=null;
-        for (Accounts account : Accounts.getAdmins()) {
-            if (account.getUsername().equals(adminUsername)) {
-                admin = account;
-                break;
-            }
-        }
-        if (admin instanceof Admin) {
-            if (admin != null) {
-                System.out.println("Transaction history for Admin " + adminUsername + ":");
-                if (Accounts.getTransactions().isEmpty()) {
-                    System.out.println("No transactions found.");
-                } else {
-                    for (Transaction transaction : Accounts.getTransactions()) {
+       //String adminUsername = sc.nextLine();
+
+
+        for (Accounts account : ATMSystem.accounts()) {
+            if (account instanceof Admin){
+                if(account.getTransactions().isEmpty()){
+                    System.out.println("No Admin Transactions");
+                }
+                else{
+                    System.out.println("Admin Transaction History:");
+                    for(Transaction transaction:admins.getTransactions()){
                         System.out.println(transaction);
                     }
                 }
-            } else {
-                System.out.println("Admin not found.");
+            }
+
+        }
+
+    }
+    private void updateNoteCount(int denomination, int count) {
+        // Iterate through the notes and update the count for the given denomination
+        for (Notes note : ATMSystem.getNotes()) {
+            if (note.getDenomination() == denomination) {
+                note.setCount(note.getCount() + count);
+                return;
             }
         }
+
     }
 }

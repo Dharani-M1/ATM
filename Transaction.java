@@ -5,12 +5,10 @@ public class Transaction {
 
 
 
-    public Transaction(String type, double amount,String name) {
+    public Transaction(String name,String type, double amount) {
+        this.name=name;
         this.type = type;
         this.amount = amount;
-        this.name=name;
-
-
     }
 
 
