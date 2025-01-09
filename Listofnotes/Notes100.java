@@ -1,7 +1,4 @@
 package Listofnotes;
-
-
-
 import Notes.Notes;
 
 public class Notes100 extends Notes {

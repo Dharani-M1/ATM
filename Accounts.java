@@ -15,9 +15,6 @@ public class Accounts {
 
     }
 
-
-
-
     public Accounts() {
 
     }
@@ -41,9 +38,6 @@ public class Accounts {
         return transactions;
     }
 
-   // public  void setTransactions(ArrayList<Transaction> transactions) {
-       // Accounts.transactions = transactions;
-  //  }
 
 
     public void  setPassword(String confirmPin) {

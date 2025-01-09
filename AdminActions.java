@@ -54,7 +54,7 @@ public class AdminActions {
         User newuser=new User(username,password,0);
 
         // Add the new user
-       ATMSystem.accounts().add(newuser);
+        ATMSystem.accounts().add(newuser);
         System.out.println("User added successfully.");
     }
 
@@ -82,18 +82,18 @@ public class AdminActions {
 
     // View the list of registered users
     public void viewUsers() {
-      if(ATMSystem.accounts().isEmpty()){
-          System.out.println("No users available");
+        if(ATMSystem.accounts().isEmpty()){
+            System.out.println("No users available");
 
-      }
-      else{
-          for(Accounts accounts:ATMSystem.accounts()){
-              if(accounts instanceof User){
-                  User user=(User)accounts;
-                  System.out.println("User Name:"+user.getUsername());
-              }
-          }
-      }
+        }
+        else{
+            for(Accounts accounts:ATMSystem.accounts()){
+                if(accounts instanceof User){
+                    User user=(User)accounts;
+                    System.out.println("User Name:"+user.getUsername());
+                }
+            }
+        }
     }
 
     // View the ATM balance
@@ -162,10 +162,6 @@ public class AdminActions {
                         System.out.println("No Transaction History found");
                     }
                     else {
-                      //  for(Transaction transaction:transactionhis){
-                        //    System.out.println(transaction);
-
-                      //  }
                         System.out.println(transactionhis);
 
                     }
@@ -176,10 +172,6 @@ public class AdminActions {
 
     // View an admin's transaction history
     public void viewAdminTransactions(Admin admins) {
-
-       //String adminUsername = sc.nextLine();
-
-
         for (Accounts account : ATMSystem.accounts()) {
             if (account instanceof Admin){
                 if(account.getTransactions().isEmpty()){

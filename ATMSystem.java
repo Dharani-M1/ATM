@@ -24,42 +24,12 @@ public class ATMSystem {
         ATMSystem.atmbalance = atmbalance;
     }
 
-    //  public static ArrayList<User> getUsers() {
-    //      return users;
-    //}
 
-
-
-    //  public static ArrayList<Admin> getAdmins() {
-    //     return admins;
-    //  }
-
-    // public static void setAdmins(ArrayList<Admin> admins) {
-    //      ATMSystem.admins = admins;
-    //  }
 
     public static ArrayList<Notes> getNotes() {
         return notes;
     }
 
-    public static void setNotes(ArrayList<Notes> notes) {
-        ATMSystem.notes = notes;
-    }
 
-    public static ArrayList<Transaction> getTransactions() {
-        return transactions;
-    }
 
-    public static void setTransactions(ArrayList<Transaction> transactions) {
-        ATMSystem.transactions = transactions;
-    }
-
-    public static Notes getdenom(int denomination){
-        for(Notes note:notes){
-            if(note.getDenomination()==denomination){
-                return note;
-            }
-        }
-        return null;
-    }
 }

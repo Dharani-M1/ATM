@@ -164,7 +164,7 @@ public class UserActions {
         ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() - amount);
 
         // Add the transaction to the user's transaction history
-       // user.getTransactions().add(new Transaction("User", "Withdraw",amount));
+        // user.getTransactions().add(new Transaction("User", "Withdraw",amount));
         user.getTransactions().add(new Transaction("User","withdraw",amount));
 
         // Display the successful withdrawal message and notes Withdrawn count
@@ -204,7 +204,7 @@ public class UserActions {
             user.setBalance(user.getBalance() + amount); // Update user's balance
             ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() + amount);// Update ATM balance
             user.getTransactions().add(new Transaction("user","deposit",amount));
-          //  Accounts.getTransactions().add(new Transaction("user", "deposit",amount)); // Add deposit transaction
+            //  Accounts.getTransactions().add(new Transaction("user", "deposit",amount)); // Add deposit transaction
 
             // Update the note counts in the ATM
             updateNoteCount(2000, count2000);
