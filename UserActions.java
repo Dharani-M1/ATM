@@ -3,93 +3,86 @@ import java.util.Scanner;
 import Notes.Notes;
 
 public class UserActions {
+    // Method to log in a user by username and password
     public static Accounts userLog(Scanner sc) {
+        //  to enter their username
         System.out.print("Enter Username: ");
         String username = sc.nextLine();
 
         Accounts user = null;
 
-        // Iterate through the list of users
+        // Iterate  the list of accounts to find a matching username
         for (Accounts u : ATMSystem.accounts()) {
             if (u.getUsername().equals(username)) {
-                user=u;
-                break;
+                user = u;  // Assign the matching account to the user variable
+                break;  // Exit the loop once a match is found
             }
         }
 
-        // Check if the found account is an instance of User
+        // Check if the found account is an instance of the User class
         if (user instanceof User) {
+            //the user to enter their PIN
             System.out.print("Enter User Pin: ");
             String password = sc.nextLine();
 
-            // Verify the password
+            // Verify if the Password
             if (password.equals(user.getPassword())) {
-                return (User) user;  // Safe cast after instanceof check
+                return (User) user;
             } else {
-                System.out.println("Invalid Pin.");
+                System.out.println("Invalid Pin.");  // if PIN is incorrect
             }
         } else {
-            System.out.println("Invalid Username.");
+            System.out.println("Invalid Username.");  // if username is not found
         }
 
-        return null;
+        return null;  // Return null if login fails
     }
 
-    // to view the user's current balance
+    // Method to view the user's current balance
     public void viewBalance(User user) {
-        System.out.println("Current Balance: " + user.getBalance());
+        System.out.println("Current Balance: " + user.getBalance());  // Display the user's balance
     }
 
-    // to change the user's PIN
+    // Method to change the user's PIN
     public void changePin(User user, Scanner sc) {
         System.out.println("Enter New PIN:");
-        String newPin = sc.nextLine(); // Read the new PIN from the user
+        String newPin = sc.nextLine();  // Read the new PIN from the user
         System.out.println("Confirm New PIN:");
-        String confirmPin = sc.nextLine(); // Read the confirmation PIN
+        String confirmPin = sc.nextLine();  // Read the confirmation PIN
 
         // Check if the new PIN matches the confirmation PIN
         if (newPin.equals(confirmPin)) {
-            user.setPassword(confirmPin); // setPassword stores the PIN
+            user.setPassword(confirmPin);  // Update the user's password
             System.out.println("PIN changed successfully.");
         } else {
-            System.out.println("PIN mismatch. Try again.");
+            System.out.println("PIN mismatch. Try again.");  // if pin do not match
         }
     }
 
-    // to view the transaction history of the user
+    // Method to view the transaction history of the user
     public void viewTransactionHistory(User user) {
-        for(Accounts account:ATMSystem.accounts()){
-            if(account instanceof User){
-                if(account.equals(user)){
-                    ArrayList<Transaction>transactionshis=user.getTransactions();
-                    if(transactionshis.isEmpty()){
-                        System.out.println("No Transaction History found");
-                    }
-                    else {
-                        for(Transaction transaction:transactionshis){
-                            System.out.println(transaction);
-
+        for (Accounts account : ATMSystem.accounts()) {
+            if (account instanceof User) {
+                if (account.equals(user)) {
+                    ArrayList<Transaction> transactionsHis = user.getTransactions();  // Get the user's transaction history
+                    if (transactionsHis.isEmpty()) {
+                        System.out.println("No Transaction History found");  // if no transactions are found
+                    } else {
+                        System.out.println("Transaction history for " + user.getUsername() + ":");
+                        for (Transaction transaction : transactionsHis) {
+                            System.out.println(transaction);  // Display each transaction
                         }
-
                     }
                 }
-
             }
-
         }
-        System.out.println("Transaction history for " + user.getUsername() + ":");
-
-        // Check if the user has any transaction history
 
     }
 
-
     // Method to withdraw money
-
-    // Method to withdraw money from the ATM
     public void withdrawMoney(Scanner sc, User user) {
         System.out.print("Enter amount to withdraw: ");
-        double amount = Double.parseDouble(sc.nextLine()); // Read the withdrawal amount
+        double amount = Double.parseDouble(sc.nextLine());  // Read the withdrawal amount
 
         // Validate the entered amount
         if (amount <= 0) {
@@ -103,10 +96,10 @@ public class UserActions {
             return;
         }
 
-        int remainingAmount = (int) amount; // Convert amount to an integer for calculations
-        int totalATMAvailable = 0; // Variable to store total ATM balance
+        int remainingAmount = (int) amount;  // Convert amount to an integer for calculations
+        int totalATMAvailable = 0;  // Variable to store total ATM balance
 
-        // Calculate total balance available in the ATM based on the notes
+        // Calculate total balance available in the ATM
         for (Notes note : ATMSystem.getNotes()) {
             totalATMAvailable += note.getDenomination() * note.getCount();
         }
@@ -163,11 +156,10 @@ public class UserActions {
         user.setBalance(user.getBalance() - amount);
         ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() - amount);
 
-        // Add the transaction to the user's transaction history
-        // user.getTransactions().add(new Transaction("User", "Withdraw",amount));
-        user.getTransactions().add(new Transaction("User","withdraw",amount));
+        // Add the transaction to the user transaction history
+        user.getTransactions().add(new Transaction("User", "Withdraw", amount));
 
-        // Display the successful withdrawal message and notes Withdrawn count
+        // Display the successful withdrawal message and notes withdrawn count
         System.out.println("Withdrawal successful. Notes Withdrawn:");
         if (required2000 > 0) {
             System.out.println("2000 x " + required2000);
@@ -183,10 +175,10 @@ public class UserActions {
         }
     }
 
-    // Method to deposit money into the ATM
+    // Method to deposit money into the user acc
     public void depositMoney(Scanner sc, User user) {
         System.out.print("Enter deposit amount: ");
-        double amount = Double.parseDouble(sc.nextLine()); // Read the deposit amount
+        double amount = Double.parseDouble(sc.nextLine());  // Read the deposit amount
 
         // Read the count of each denomination
         System.out.println("Enter denomination counts:");
@@ -201,10 +193,9 @@ public class UserActions {
 
         // Validate the total amount based on the entered denominations
         if ((count2000 * 2000 + count500 * 500 + count200 * 200 + count100 * 100) == amount) {
-            user.setBalance(user.getBalance() + amount); // Update user's balance
-            ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() + amount);// Update ATM balance
-            user.getTransactions().add(new Transaction("user","deposit",amount));
-            //  Accounts.getTransactions().add(new Transaction("user", "deposit",amount)); // Add deposit transaction
+            user.setBalance(user.getBalance() + amount);  // Update user's balance
+            ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() + amount);  // Update ATM balance
+            user.getTransactions().add(new Transaction("User", "Deposit", amount));  // Add deposit transaction
 
             // Update the note counts in the ATM
             updateNoteCount(2000, count2000);
@@ -218,15 +209,14 @@ public class UserActions {
         }
     }
 
-    //  method to update the note count
+    // Method to update the note count in the ATM
     private void updateNoteCount(int denomination, int count) {
-        // Iterate through the notes and update the count for the given denomination
+        // Iterate the notes and update the count for the given denomination
         for (Notes note : ATMSystem.getNotes()) {
             if (note.getDenomination() == denomination) {
-                note.setCount(note.getCount() + count);
+                note.setCount(note.getCount() + count);  // Update the note count
                 return;
             }
         }
-
     }
 }

@@ -4,11 +4,10 @@ public class Accounts {
     private String username;
     private String password;
 
-    private static ArrayList<User>users=new ArrayList<>();
-    private static ArrayList<Admin>admins=new ArrayList<>();
+
     private  ArrayList<Transaction> transactions=new ArrayList<>();
 
-    public Accounts(String username,String password){
+    protected Accounts(String username,String password){
         this.username=username;
         this.password=password;
 
@@ -28,9 +27,7 @@ public class Accounts {
     }
 
 
-    public static ArrayList<User> getUsers() {
-        return users;
-    }
+
 
 
 

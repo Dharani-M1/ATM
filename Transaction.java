@@ -14,6 +14,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Type: " + type + ", Amount: " + amount +"BY"+name;
+        return "Type: " + type + ", Amount: " + amount +"  BY "+name;
     }
 }
