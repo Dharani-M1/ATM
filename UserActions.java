@@ -9,25 +9,28 @@ public class UserActions {
         System.out.print("Enter Username: ");
         String username = sc.nextLine();
 
-        Accounts user = null;
+        Accounts userr = null;
 
         // Iterate  the list of accounts to find a matching username
         for (Accounts u : ATMSystem.accounts()) {
-            if (u.getUsername().equals(username)) {
-                user = u;  // Assign the matching account to the user variable
-                break;  // Exit the loop once a match is found
+            if(u instanceof User) {
+                if (u.getUsername().equals(username)) {
+                    userr = u;  // Assign the matching account to the user variable
+                    break;  // Exit the loop once a match is found
+                }
             }
+
         }
 
         // Check if the found account is an instance of the User class
-        if (user instanceof User) {
+        if (userr!=null) {
             //the user to enter their PIN
             System.out.print("Enter User Pin: ");
             String password = sc.nextLine();
 
             // Verify if the Password
-            if (password.equals(user.getPassword())) {
-                return (User) user;
+            if (password.equals(userr.getPassword())) {
+                return userr;
             } else {
                 System.out.println("Invalid Pin.");  // if PIN is incorrect
             }
@@ -157,7 +160,7 @@ public class UserActions {
         ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() - amount);
 
         // Add the transaction to the user transaction history
-        user.getTransactions().add(new Transaction("User", "Withdraw", amount));
+        user.getTransactions().add(new Transaction(user.getUsername(), "Withdraw", amount));
 
         // Display the successful withdrawal message and notes withdrawn count
         System.out.println("Withdrawal successful. Notes Withdrawn:");
@@ -195,7 +198,7 @@ public class UserActions {
         if ((count2000 * 2000 + count500 * 500 + count200 * 200 + count100 * 100) == amount) {
             user.setBalance(user.getBalance() + amount);  // Update user's balance
             ATMSystem.setAtmbalance(ATMSystem.getAtmbalance() + amount);  // Update ATM balance
-            user.getTransactions().add(new Transaction("User", "Deposit", amount));  // Add deposit transaction
+            user.getTransactions().add(new Transaction(user.getUsername(), "Deposit", amount));  // Add deposit transaction
 
             // Update the note counts in the ATM
             updateNoteCount(2000, count2000);

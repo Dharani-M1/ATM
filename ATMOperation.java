@@ -39,7 +39,6 @@ public class ATMOperation {
                 case 2:
                     // User login process
                     User user=(User)UserActions.userLog(sc);
-
                     if(user!=null) {
                         userActionsMenu(sc,user);
                         break;
@@ -102,7 +101,7 @@ public class ATMOperation {
                     break;
                 case 7:
                     // View transactions made by admins
-                    adminActions.viewAdminTransactions(admin);
+                    adminActions.viewAdminTransactions(sc);
                     break;
                 case 8:
                     // Exit the admin menu

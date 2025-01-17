@@ -14,9 +14,6 @@ public class Accounts {
 
     }
 
-    public Accounts() {
-
-    }
 
     public String getUsername(){
         return username;
@@ -25,10 +22,6 @@ public class Accounts {
     public String getPassword(){
         return password;
     }
-
-
-
-
 
 
     public  ArrayList<Transaction> getTransactions() {
