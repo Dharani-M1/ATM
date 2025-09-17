@@ -8,6 +8,7 @@ Cash Withdrawal
 Cash Deposit
 PIN Change
 Admin Operations (Add User, Delete User, View Transactions,Add Cash In ATM)
+
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 Class Structure
